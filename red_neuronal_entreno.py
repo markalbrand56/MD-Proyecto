@@ -1,15 +1,18 @@
 import pandas as pd
 import numpy as np
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten
 
-EPOCHS = 1000
+EPOCHS = 1_000
 
 # Cargar los datos
-data = pd.read_csv("merged_data.csv")  # Asegúrate de reemplazar "ruta_del_archivo.csv" con la ruta real del archivo
+data = pd.read_csv("merged_data.csv")
 
 # Dividir los datos en características (X) y la variable objetivo (y)
 X = data.drop(columns=["Depressive disorder rates (number suffering per 100,000)", "Entity", "Code"])
@@ -25,17 +28,24 @@ X_test_scaled = scaler.transform(X_test)
 
 # Construir el modelo de red neuronal
 model = Sequential([
-    Conv1D(64, 3, activation='relu', input_shape=(X_train.shape[1], 1)),
-    MaxPooling1D(2),
-    Conv1D(64, 3, activation='relu'),
-    MaxPooling1D(2),
-    Flatten(),
-    Dense(64, activation='relu'),
-    Dense(1)
+    Conv1D(64, 3, activation='relu', input_shape=(X_train.shape[1], 1)),  # Convolutional layer: 64 filtros de 3x1 para extraer características
+    MaxPooling1D(2),  # Max pooling layer: Reducir la dimensión de las características para obtener las más importantes
+    Conv1D(64, 3, activation='relu'),  # Convolutional layer: 64 filtros de 3x1 para extraer características
+    MaxPooling1D(2),  # Max pooling layer: Reducir la dimensión de las características para obtener las más importantes
+    Flatten(),  # Aplanar las características para poder conectarlas a una capa densa
+    Dense(64, activation='relu'),  # Capa densa con 64 neuronas y función de activación ReLU
+    Dense(1)  # Capa densa con 1 neurona para la regresión
 ])
 
+# Función de pérdida
+loss_fn = 'mean_squared_error'
+
 # Compilar el modelo
-model.compile(optimizer='adam', loss='mean_squared_error')
+model.compile(
+    optimizer='adam',
+    loss=loss_fn,
+    metrics=['mean_squared_error']
+)
 
 # Entrenar el modelo
 model.fit(X_train_scaled, y_train, epochs=EPOCHS, batch_size=32, validation_split=0.2)
@@ -53,3 +63,5 @@ actual_value = y_test.iloc[0]
 print("Valor real:", actual_value)
 print("Predicción:", prediction[0][0])
 
+# Exportar el modelo
+model.save("red_neuronal.h5")

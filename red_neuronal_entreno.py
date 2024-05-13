@@ -63,3 +63,5 @@ actual_value = y_test.iloc[0]
 print("Valor real:", actual_value)
 print("Predicción:", prediction[0][0])
 
+# Exportar el modelo
+model.save("red_neuronal.h5")

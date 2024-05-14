@@ -13,6 +13,10 @@ EPOCHS = 1_000_000
 
 # Cargar los datos
 data = pd.read_csv("merged_data.csv")
+print(f"Filas: {data.shape[0]}, Columnas: {data.shape[1]}")
+# excluir las filas donde 'Year' es 2017 o mayor
+data = data[data["Year"] < 2017]
+print(f"Filas: {data.shape[0]}, Columnas: {data.shape[1]}")
 
 # Dividir los datos en características (X) y la variable objetivo (y)
 X = data.drop(columns=["Depressive disorder rates (number suffering per 100,000)", "Entity", "Code"])

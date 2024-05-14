@@ -9,7 +9,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten
 
-EPOCHS = 100_000
+EPOCHS = 20_000
 
 # Cargar los datos
 data = pd.read_csv("merged_data.csv")

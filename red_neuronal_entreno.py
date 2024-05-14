@@ -9,7 +9,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten
 
-EPOCHS = 1_000
+EPOCHS = 1_000_000
 
 # Cargar los datos
 data = pd.read_csv("merged_data.csv")
@@ -64,4 +64,4 @@ print("Valor real:", actual_value)
 print("Predicción:", prediction[0][0])
 
 # Exportar el modelo
-model.save("red_neuronal.h5")
+model.save("output/red_neuronal.h5")

@@ -14,6 +14,7 @@ EPOCHS = 20_000
 # Cargar los datos
 data = pd.read_csv("merged_data.csv")
 print(f"Filas: {data.shape[0]}, Columnas: {data.shape[1]}")
+
 # excluir las filas donde 'Year' es 2017 o mayor
 data = data[data["Year"] < 2017]
 print(f"Filas: {data.shape[0]}, Columnas: {data.shape[1]}")
@@ -68,4 +69,4 @@ print("Valor real:", actual_value)
 print("Predicción:", prediction[0][0])
 
 # Exportar el modelo
-model.save("output/red_neuronal.h5")
+model.save("output/red_neuronal_1.h5")

@@ -23,6 +23,7 @@ print(f"Filas: {data.shape[0]}, Columnas: {data.shape[1]}")
 X = data.drop(columns=["Depressive disorder rates (number suffering per 100,000)", "Entity", "Code"])
 y = data["Depressive disorder rates (number suffering per 100,000)"]
 
+
 # Dividir los datos en conjuntos de entrenamiento y prueba
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -44,20 +45,26 @@ model = Sequential([
 
 # Función de pérdida
 loss_fn = 'mean_squared_error'
+early_stopping = tf.keras.callbacks.EarlyStopping(patience=500, restore_best_weights=True, monitor='val_mean_squared_error')
 
 # Compilar el modelo
 model.compile(
     optimizer='adam',
     loss=loss_fn,
-    metrics=['mean_squared_error']
+    metrics=['mean_absolute_error', 'mean_squared_error']
 )
 
 # Entrenar el modelo
-model.fit(X_train_scaled, y_train, epochs=EPOCHS, batch_size=32, validation_split=0.2)
+model.fit(X_train_scaled, y_train, epochs=EPOCHS, batch_size=32, validation_split=0.2, callbacks=[early_stopping])
 
 # Evaluar el modelo
-mse = model.evaluate(X_test_scaled, y_test)
-print("Error cuadrático medio en el conjunto de prueba:", mse)
+results = model.evaluate(X_test_scaled, y_test)
+
+mae = results[1]
+mse = results[2]
+
+print(f"\nError absoluto medio en el conjunto de prueba: {mae}")
+print(f"Error cuadrático medio en el conjunto de prueba: {mse}\n")
 
 # Predecir un ejemplo
 example = X_test_scaled[0].reshape(1, -1)

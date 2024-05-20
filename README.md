@@ -1,60 +1,41 @@
-# Exploración de Datos del Conjunto "Mental health Depression disorder Data"
+# Explorando los Determinantes de la Depresión: Un Análisis Global
 
-## Introducción
-El dataset utilizado en este análisis es el "Mental health Depression disorder Data", obtenido de [data.world](https://data.world/vizzup/mental-health-depression-disorder-data). Este conjunto de datos contiene 54 variables distribuidas en 6 hojas diferentes, con un total de 115,044 observaciones. El objetivo del análisis es comprender la prevalencia de la depresión y sus factores asociados a nivel global.
+**Karen Jimena Hernández Ortega**  
+**Mark Alexander Albrand Mendoza**  
+**Mario Cristales**  
+**Javier Heredia**  
+**Luis Roberto Furlan Collver**  
+Departamento de Ciencias de la Computación. Facultad de Ingeniería, Universidad del Valle de Guatemala
 
-## Variables Numéricas
-Para las variables cuantitativas, se realizaron histogramas para analizar su distribución. A continuación se detallan las distribuciones encontradas en cada hoja del dataset:
+## Resumen 
+Este estudio analiza los factores asociados a la depresión en una perspectiva global utilizando el conjunto de datos *Mental Health Depression Disorder Data*. Se centra en la variable *Depressive disorder rates (number suffering per 100,000)* como objetivo principal, aplicando algoritmos de aprendizaje automático, específicamente redes neuronales y máquinas de vectores de soporte (SVM). Los resultados indican patrones significativos en la prevalencia de la depresión asociados a variables sociodemográficas. 
 
-- **depression-by-level-of-education**: La mayoría de las variables presentaron distribuciones uniformes, con algunas excepciones como distribuciones geométricas y binomiales.
-- **suicide-rates-vs-prevalence-of-depression**: Las variables principales presentaron distribuciones geométricas, binomiales y en forma de J invertida.
-- **number-with-depression-by-country**: Distribución en forma de J invertida.
-- **prevalence-by-mental-and-substance**: Diversas distribuciones como binomial negativa, geométrica, log-normal y uniforme.
-- **prevalence_depression_age**: Distribuciones variadas como hipergeométrica, binomial negativa, log-normal y gamma.
-- **Prevelance_depression_male**: Distribución binomial y en forma de J invertida.
+**Palabras clave**: depresión, análisis de datos, aprendizaje automático, redes neuronales, SVM.
 
-## Análisis de Correlación
-Se analizó la correlación entre las variables cuantitativas en cada hoja. Se encontraron correlaciones significativas entre la depresión y varias variables demográficas y de salud mental.
+## Introducción 
+La depresión es un trastorno mental complejo influenciado por factores sociales, psicosociales, genéticos y biológicos. Se caracteriza por síntomas como la pérdida de interés en actividades cotidianas, baja autoestima y una sensación persistente de tristeza (Muñoz et al., 2021). La Organización Mundial de la Salud (OMS) estima que el 3,8% de la población mundial sufre de depresión, afectando a 280 millones de personas globalmente. Este estudio utiliza el conjunto de datos *Mental Health Depression Disorder Data* para investigar los factores asociados a la depresión en diferentes países y grupos demográficos.
 
-## Variables Categóricas
-Las únicas variables categóricas presentes son 'Entity' y 'Code', las cuales se analizaron mediante tablas de frecuencias.
+## Metodología de Análisis y Recolección de Datos 
+### Características y Procesamiento de los Datos
+El conjunto de datos *Mental Health Depression Disorder Data* incluye variables relacionadas con los desórdenes de depresión, organizadas en seis hojas de un documento de Excel. Las hojas contienen información sobre el uso de sustancias, nivel de educación, edad, género, conteo total por país de la prevalencia de la depresión y tasas de suicidio.
 
-## Variables Seleccionadas
-Se determinó que las variables más relevantes para el análisis son:
-- Entity
-- Code
-- Year
-- Schizophrenia (%)
-- Bipolar disorder (%)
-- Eating disorders (%)
-- Anxiety disorders (%)
-- Drug use disorders (%)
-- Depression (%)
-- Alcohol use disorders (%)
-- Prevalence in males (%)
-- Prevalence in females (%)
-- Population_x
-- Suicide rate (deaths per 100,000 individuals)
-- Depressive disorder rates (number suffering per 100,000)
-- Population_y
-- Prevalence - Depressive disorders - Sex: Both - Age: All Ages (Number)
-- 20-24 years old (%)
-- 10-14 years old (%)
-- All ages (%)
-- 70+ years old (%)
-- 30-34 years old (%)
-- 15-19 years old (%)
-- 25-29 years old (%)
-- 50-69 years old (%)
-- Age-standardized (%)
-- 15-49 years old (%)
+Después de una rigurosa exploración de datos, se seleccionó “Depressive disorder rates (number suffering per 100,000)” como la variable objetivo. Además, se eligieron 24 variables adicionales que se consideraron relevantes para el análisis.
 
-## Agrupamiento (Clustering)
-Se utilizó exclusivamente el algoritmo de agrupamiento K-means, que requiere definir la cantidad de grupos antes de iniciar el análisis. Para determinar el número óptimo de grupos, se examinó cómo varía la suma total de las distancias cuadráticas dentro de los grupos (WCSS) al modificar la cantidad de grupos. Como se muestra en la figura 1, seguido de diez grupos no se tiene un cambio significativo, por lo que se decidió utilizar solamente diez divisiones.
+Para el procesamiento de los datos, se realizaron procesos de limpieza, escalado y optimización de parámetros. Los datos hasta 2016 se utilizaron para entrenamiento (80%) y prueba (20%), y los datos de 2017 en adelante para validación.
 
-**Figura 1. Variabilidad de datos en los grupos**
+### Algoritmos Utilizados
+#### Red Neuronal
+Las redes neuronales, inspiradas en el funcionamiento del sistema nervioso humano, son adecuadas para manejar conjuntos de datos complejos y de alta dimensión. La red neuronal utilizada en este estudio tenía siete capas, incluyendo capas convolucionales, de max pooling, aplanado y densas. Se entrenó con 20,000 iteraciones usando un equipo con un procesador Ryzen 9 7940HS y 32 GB de RAM.
 
-El algoritmo creó diez grupos que pueden ser visualizados en la tabla 2 presentada a continuación.
+#### Máquina de Vectores de Soporte (SVM)
+El SVM es un algoritmo supervisado que busca encontrar el hiperplano óptimo para clasificar datos en un espacio N-dimensional. Se utilizó un kernel lineal ya que los datos eran linealmente separables. Se creó una nueva variable *Depression_binary* para clasificar las tasas de depresión en tres categorías: bajo, medio y alto.
+
+## Resultados
+### Exploración de los Datos
+Se realizó un análisis exploratorio de los datos para identificar patrones y características. Se encontró que hay un total de 196 países diferentes con datos desde 1990 hasta 2017, distribuidos uniformemente.
+
+### Predicción y Aplicación de Algoritmos
+Se utilizó el algoritmo de agrupamiento K-means para definir diez grupos óptimos basados en la suma total de las distancias cuadráticas dentro de los grupos (WCSS). Los clusters creados se presentan en la siguiente tabla:
 
 | Cluster | Cantidad de datos |
 |---------|--------------------|
@@ -69,29 +50,34 @@ El algoritmo creó diez grupos que pueden ser visualizados en la tabla 2 present
 | 9       | 504                |
 | 10      | 1193               |
 
-**Tabla 2. Representación de datos por cluster**
+Los grupos más notables fueron el primero, el tercero y el décimo. El primer grupo tenía las menores tasas de esquizofrenia, desórdenes alimenticios y uso de drogas. El tercer grupo tenía las menores tasas en variables de edad y género. El décimo grupo tenía el promedio más bajo en desórdenes bipolares.
 
-Los grupos más notables, con la mayor cantidad de datos, fueron el primero, el tercero y el décimo. El primer grupo tiene en promedio las menores tasas de esquizofrenia, desórdenes alimenticios y uso de drogas. El tercer grupo tiene en promedio las menores tasas en las variables de edad y género. Por último, el décimo grupo se compone por datos con el promedio más bajo en la variable de desórdenes bipolares. Estos grupos permiten observar las diferencias y agrupaciones que surgen en el conjunto de datos usado.
+#### Red Neuronal
+La red neuronal mostró un error absoluto medio (MAE) y un error cuadrático medio (MSE) durante las fases de entrenamiento y evaluación, indicando un buen ajuste a los datos. Sin embargo, los datos de validación mostraron errores más elevados, lo cual era esperado debido a la falta de exposición del modelo a estos datos durante el entrenamiento.
 
-## Modelos Predictivos
-Después de analizar las agrupaciones creadas de forma no supervisada, se aplicaron varios algoritmos para realizar predicciones sobre la cantidad de personas que presentan desórdenes de depresión cada 100,000 personas. Los algoritmos seleccionados fueron una red neuronal y una máquina de vectores de soporte (SVM).
+| Fase          | MAE    | MSE          |
+|---------------|--------|--------------|
+| Entrenamiento | 2.3356 | 10.0856      |
+| Evaluación    | 2.3274 | 9.9416       |
+| Validación    | 468.5533 | 351,443.73489 |
 
-## Discusión
-### Situación Problemática
-Los trastornos mentales, especialmente la depresión, son una preocupación creciente a nivel global, afectando significativamente la calidad de vida y los sistemas de salud.
+#### SVM
+El SVM mostró un rendimiento excepcional en la clasificación de los datos, con altas métricas de precisión, recall, F1-score y accuracy.
 
-### Problema Científico
-Se necesita una comprensión profunda de los determinantes sociodemográficos de la depresión para desarrollar estrategias de intervención efectivas.
-
-### Objetivos
-- Comprender la influencia de factores socioeconómicos, de género, demográficos y educativos en la prevalencia de la depresión.
-- Identificar países y grupos de edad con mayores incrementos en la depresión.
-- Analizar la relación entre tasas de suicidio y depresión.
+| Fase          | Precision | Recall | F1-score | Accuracy |
+|---------------|-----------|--------|----------|----------|
+| Entrenamiento | 0.989     | 0.99   | 0.99     | 0.99     |
+| Validación    | 0.994     | 0.99   | 0.99     | 0.99     |
 
 ## Conclusiones
-- Los datos tienen poca capacidad de ser separados en clusters claros.
-- No se encontró una asociación significativa entre el género y el porcentaje de depresión.
-- La edad muestra una alta correlación con la depresión, lo que es importante para predicciones futuras.
+Los datos tienen una capacidad limitada para ser separados en clusters claros. La red neuronal y el SVM mostraron buenos resultados en la predicción de la depresión. La edad mostró una alta correlación con la depresión, lo que es significativo para predicciones futuras.
 
-## Bibliografía
-Vizzup (2020). [Mental health Depression disorder Data](https://data.world/vizzup/mental-health-depression-disorder-data)
+## Referencias
+- Suriano, A. (2024). Naive Bayes & Laplace smoothing, SVM, Arboles de Decision. Departamento de Ciencias de la Computación y Tecnologías de la Información, Universidad del Valle de Guatemala.
+- Carrillo García, S. (2019). Artículo científico. En S. Carrillo García, L. M. Toro Calderón, A. X. Cáceres González y E. C. Jiménez Lizarazo, Caja de herramientas. Géneros Textuales. Universidad Santo Tomás.
+- CRAI USTA Bucaramanga. (2020). Informe de recursos y servicios bibliográficos. Universidad Santo Tomás.
+- Vargas Leal, V. M., Galvis García, R. E., Idárraga Ortiz, S. A. y López Báez, J. D. (2020). Guía resumen del estilo APA: séptima edición. Universidad Santo Tomás. http://hdl.handle.net/11634/34384
+- IBM. (2021, 17 agosto). El modelo de redes neuronales. https://www.ibm.com/docs/es/spss-modeler/saas?topic=networks-neural-model
+- Del Cid, M. T. C. (2021). La depresión y su impacto en la salud pública. Revista médica hondureña, 89(Supl. 1), 46-52.
+- Muñoz, V., Alvarado, C. L. A., Barros, J. M. T., & Malla, M. I. M. (2021). Prevalencia de depresión y factores asociados en adolescentes: Artículo original. Revista Ecuatoriana de Pediatría, 22(1), 6-1.
+- Organización Mundial de la Salud (2023, Marzo 31). Depresión. Organización Mundial de la Salud. https://www.who.int/es/news-room/fact-sheets/detail/depression#:~:text=Se%20estima%20que%20el%203,personas%20sufren%20depresi%C3%B3n%20(1).

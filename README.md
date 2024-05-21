@@ -31,9 +31,9 @@ También, se seleccionó *“Depressive disorder rates (number suffering per 100
 
 Además, se eligieron 24 variables adicionales que se consideraron relevantes para el análisis.
 
-A partir de esto se realizó una matriz de correlación con la variables elegidas  Al final del notebook, se exportó un archivo CSV con las variables seleccionadas.
+A partir de esto, se realizó una matriz de correlación con la variables elegidas que puede ser encontrada en el notebook [correlation.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/correlation.ipynb). Por último, se exportó un archivo CSV con las variables seleccionadas.
 
-Para el procesamiento de los datos, se realizaron procesos de limpieza, escalado y optimización de parámetros. Los datos hasta 2016 se utilizaron para entrenamiento (80%) y prueba (20%), y los datos de 2017 en adelante para validación.
+Para el procesamiento de los datos, se realizaron procesos de limpieza, escalado y optimización de parámetros. Los datos hasta 2016 se utilizaron para entrenamiento (80%) y prueba (20%), y los datos de 2017 en adelante para calculo de predicciones.
 
 ### Algoritmos Utilizados
 
@@ -89,11 +89,16 @@ y_pred = clasificador.predict(X_prueba)
 
 ```
 
-## Resultados
+En el notebook se puede observar el proceso de división de los datos, la creación del modelo, la predicción y la evaluación del modelo. Se utilizó la matriz de confusión y las métricas de precisión, recall, F1-score y accuracy para evaluar el rendimiento del modelo. El modelo se entrenó aproximadamente en menos de un segundo. El equipo usado contaba con las siguientes características: MacBook M2 Pro, 2023 de 16 GB de memoria RAM.
+
+
+## Resultados y discusión
 
 ### Exploración de los Datos
 
 Se realizó un análisis exploratorio de los datos para identificar patrones y características. Se encontró que hay un total de 196 países diferentes con datos desde 1990 hasta 2017, distribuidos uniformemente.
+
+A partir del análisis realizado sobre el conjunto de datos por medio de cada ProfileReport, se revelaron hallazgos detallados sobre la prevalencia de la depresión. La tasa máxima de depresión registrada es del 6.6%, mientras que la media global es del 3.49%. Al desglosar los datos por grupos de edad, se observan diferencias significativas: la media de depresión en personas de 10 a 14 años es del 1.37%, en el grupo de 20 a 24 años es del 3.79%, y en aquellos mayores de 70 años, la media es significativamente mayor, alcanzando el 6.13%. Al analizar las diferencias de género, se confirma una mayor prevalencia de mujeres, con una media del 4.16% en comparación con el 2.80% en hombres.
 
 #### Red Neuronal
 
@@ -103,9 +108,11 @@ La red neuronal mostró un error absoluto medio (MAE) y un error cuadrático med
 |---------------|--------|--------------|
 | Entrenamiento | 2.3356 | 10.0856      |
 | Evaluación    | 2.3274 | 9.9416       |
-| Validación    | 468.5533 | 351,443.73489 |
+| Predicciones  | 468.5533 | 351,443.73489 |
 
-El modelo de red neuronal mostró un rendimiento aceptable en la predicción. En la fase de validación especial, en el que se utilizaron datos de 2017 en adelante, el modelo mostró un error absoluto medio de 468.5533 y un error cuadrático medio de 351,443.73489. Esto muestra que en promedio el error de la predicción es aceptable, pero que existirán casos en los que la predicción será muy distante del valor real, lo cual es esperado en el modelo.
+El modelo de red neuronal mostró un rendimiento aceptable en la predicción. En la fase de predicciones, en el que se utilizaron datos de 2017 en adelante, el modelo mostró un error absoluto medio de 468.5533 y un error cuadrático medio de 351,443.73489. Esto muestra que en promedio el error de la predicción es aceptable, pero que existirán casos en los que la predicción será muy distante del valor real, lo cual es esperado en el modelo. Por lo cual se considera como satisfactorio el rendimiento del modelo.
+
+En el notebook [red_neuronal.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/red_neuronal.ipynb) se encuentra la evaluación de las predicciones con los datos de 2017 en adelante.
 
 #### SVM
 
@@ -113,13 +120,15 @@ El SVM mostró un rendimiento excepcional en la clasificación de los datos, con
 
 | Fase          | Precision | Recall | F1-score | Accuracy |
 |---------------|-----------|--------|----------|----------|
-| Entrenamiento | 0.989     | 0.99   | 0.99     | 0.99     |
-| Validación    | 0.994     | 0.99   | 0.99     | 0.99     |
+| Evaluación    | 0.989     | 0.99   | 0.99     | 0.99     |
+| Predicciones  | 0.994     | 0.99   | 0.99     | 0.99     |
+
+Como se observa, los resultados tanto en la fase de entrenamiento como de validación son bastante altos, lo que indica que los modelos son altamente eficaces y confiables para la detección de desórdenes de depresión en poblaciones amplias.
 
 ## Conclusiones
 
 - Los clusters identificados por el algoritmo K-means mostraron patrones y características claras en los datos.
-- La red neuronal y el SVM mostraron buenos resultados en la predicción de la depresión,siendo capaces de clasificar los datos con alta precisión.
+- La red neuronal y el SVM mostraron buenos resultados en la predicción de la depresión,siendo capaces de clasificar los datos con alta precisión.deser eficaces
 
 ## Referencias
 

@@ -12,6 +12,18 @@ Departamento de Ciencias de la Computación. Facultad de Ingeniería, Universida
 
 ---
 
+## Resumen
+
+La depresión es una condición compleja con causas diversas, desde factores sociales y psicológicos hasta influencias genéticas y biológicas. Este estudio utiliza el conjunto de datos Mental Health Depression Disorder Data para analizar la tasa de depresión por cada 100,000 habitantes en diferentes países. Se utilizan dos algoritmos de aprendizaje automatizado: redes neuronales y máquinas de vectores (SVM), para realizar predicciones y clasificaciones sobre la prevalencia de depresión.
+
+La metodología incluyó la recolección y procesamiento de datos de un dataset que aborda variables como el uso de sustancias, nivel educativo, edad, género, prevalencia de la depresión por país y tasas de suicidio. Se seleccionaron 24 variables relevantes para el análisis, enfocándose como objetivo Depressive disorder rates (number suffering per 100,000). Los datos fueron divididos en conjuntos de entrenamiento, prueba y validación siguiendo un enfoque temporal.
+
+El modelo de red neuronal demostró sobresalir durante las fases de entrenamiento y evaluación, aunque su precisión no fue tan efectiva al validar con datos más recientes. El algoritmo SVM demostró una alta precisión en la clasificación de las tasas de depresión.
+
+Los resultados destacan la efectividad de ambos modelos para predecir y clasificar la prevalencia de trastornos depresivos. Factores demográficos como la edad y el género, junto con variables sociales y económicas, influyen considerablemente en la prevalencia de trastornos depresivos. Esto destaca la importancia de estrategias de salud pública adaptadas a cada región y grupo demográfico.
+
+**Palabras Clave**: *depresión, análisis de datos, aprendizaje automático, redes neuronales, SVM*
+
 ## Análisis de Datos
 
 ### Características y Procesamiento de los Datos

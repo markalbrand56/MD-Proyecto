@@ -44,13 +44,33 @@ Después de una rigurosa exploración de datos la cual consistió en analizar ca
 - 4. Separación de variables cuantitativas y cualitativas, en donde para cada una se analizó el tipo de dato, se analizó la dispersión de los datos por medio de diagramas de caja y bigotes y se generó un histrograma para representar la distribución de cada una.
 - 5. Se analizó la correlación para cada una de las variables. Para determinar que tan relacionadas se encontraban entre sí.
 
+#### Variable respuesta
+
 Después de una rigurosa exploración de datos, se seleccionó “Depressive disorder rates (number suffering per 100,000)” como la variable objetivo. La selección de esta variable, se basó en la recomendación de Caitlin Bryson, estudiante de psicología y practicante en Conway Regional Rehabilitation Hospital. Caitlin sugiere que sería útil comparar las diferentes tasas de depresión entre varios países y también examinar las tasas de intentos de suicidio o la prevalencia de comportamientos autolesivos. Este enfoque podría revelar los peligros del empeoramiento de la depresión. Por ejemplo, si dos países tienen una tasa de depresión del 20% y una alta tasa de suicidio, esta información puede ser crucial para identificar umbrales adecuados y mejores prácticas para la intervención. Basándose en esta perspectiva, la variable objetivo permite no solo medir el alcance del problema sino también identificar patrones y tendencias que podrían indicar áreas de mayor riesgo y necesidad de intervención.
 
 Además, del conjunto total de variables se seleccionaron las que, a través del análisis exploratorio de los datos, se consideraron adecuadas, resultando en un conjunto de datos de veinticuatro variables. Se decidió esto con la finalidad de poder analizar la presencia de desórdenes depresivos por país y su evolución a través del tiempo, tomando en cuenta distintas métricas de desórdenes mentales y la prevalencia general de trastornos depresivos.
 
 A partir de esto, se realizó una matriz de correlación con la variables elegidas que puede ser encontrada en el notebook [correlation.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/correlation.ipynb). Por último, se exportó un archivo CSV con las variables seleccionadas.
 
+#### Método utilizado para obtener los conjuntos de entrenamiento y prueba
+
 Para el procesamiento de los datos, se realizaron procesos de limpieza, escalado y optimización de parámetros. Los datos hasta 2016 se utilizaron para entrenamiento (80%) y prueba (20%), y los datos de 2017 en adelante para calculo de predicciones.
+
+> El análisis de los datos atípicos se realizó en el notebook [proyecto-g6.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/proyecto-g6.ipynb) y el análisis de clases desbalanceadas en el notebook [SVM.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/SVM.ipynb)
+
+Analizando la variable objetivo mediante el diagrama de caja y bigotes, se observó la presencia de datos atípicos, sobre todo por encima de la media. Se decidió no eliminarlos, ya que estos datos podrían ser importantes para el análisis y la predicción. El rango de la variable es de 2065.4519 a 6096.4376, con una media de 3332.6499.
+
+El análisis de la variable objetivo desde el enfoque de clases mostró la siguiente distribución:
+
+Depression_binary
+
+| Clase | Cantidad de datos     |
+| ----- | --------------------- |
+|0      |  1192                 |
+|1      |  3011                 |
+|2      |  1089                 |
+
+Donde 0 es una baja tasa de depresión, 1 es una tasa media y 2 es una tasa alta. Se observó que la clase 1 es la más común, seguida por la clase 2 y la clase 0. Se decidió no realizar un balanceo de clases, ya que las diferencias no eran significativas y se consideró que el modelo podría manejarlas adecuadamente.
 
 ### Algoritmos Utilizados
 
@@ -76,6 +96,21 @@ Los grupos más notables fueron el primero, el tercero y el décimo. El primer g
 #### Red Neuronal
 
 Las redes neuronales, inspiradas en el funcionamiento del sistema nervioso humano, son adecuadas para manejar conjuntos de datos complejos y de alta dimensión. La red neuronal utilizada en este estudio tenía siete capas, incluyendo capas convolucionales, de max pooling, aplanado y densas. Se utilizó la biblioteca Keras de TensorFlow para la implementación de la red. Esta red se encuentra en el archivo [red_neuronal_entreno.py](https://github.com/markalbrand56/MD-Proyecto/blob/main/red_neuronal_entreno.py).
+
+El ajuste de la red neuronal consistió en la prueba de diferentes configuraciones de capas. La primera configuración fue la más simple:
+
+``` python
+model = Sequential([
+    Dense(128, activation='relu', input_shape=(X_train_scaled.shape[1],)),
+    Dense(64, activation='relu'),
+    Dense(1)
+])
+
+```
+
+Esta configuración mostró un rendimiento aceptable, más no excelente. El error absoluto medio (MAE) y el error cuadrático medio (MSE) durante las fases de entrenamiento y evaluación superaban los 120 y 1200 respectivamente.
+
+Luego de una investigación y la prueba de distintas configuraciones sugeridas, se encontró que la siguiente configuración mostraba un mejor rendimiento:
 
 ```python
 model = Sequential([
@@ -117,6 +152,10 @@ Se realizó un análisis exploratorio de los datos para identificar patrones y c
 
 A partir del análisis realizado sobre el conjunto de datos por medio de cada ProfileReport, se revelaron hallazgos detallados sobre la prevalencia de la depresión. La tasa máxima de depresión registrada es del 6.6%, mientras que la media global es del 3.49%. Al desglosar los datos por grupos de edad, se observan diferencias significativas: la media de depresión en personas de 10 a 14 años es del 1.37%, en el grupo de 20 a 24 años es del 3.79%, y en aquellos mayores de 70 años, la media es significativamente mayor, alcanzando el 6.13%. Al analizar las diferencias de género, se confirma una mayor prevalencia de mujeres, con una media del 4.16% en comparación con el 2.80% en hombres.
 
+### Aplicación de los algoritmos seleccionados en los avances al conjunto de datos de entrenamiento.
+
+La aplicación de los algoritmos se puede observar tanto en el notebook [red_neuronal.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/red_neuronal.ipynb) para la red neuronal como en el notebook [svm.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/SVM.ipynb) para la máquina de vectores de soporte.
+
 #### Red Neuronal
 
 La red neuronal mostró un error absoluto medio (MAE) y un error cuadrático medio (MSE) durante las fases de entrenamiento y evaluación, indicando un buen ajuste a los datos. Sin embargo, los datos de validación mostraron errores más elevados, lo cual era esperado debido a la falta de exposición del modelo a estos datos durante el entrenamiento.
@@ -129,23 +168,29 @@ La red neuronal mostró un error absoluto medio (MAE) y un error cuadrático med
 
 El modelo de red neuronal mostró un rendimiento aceptable en la predicción. En la fase de predicciones, en el que se utilizaron datos de 2017 en adelante, el modelo mostró un error absoluto medio de 468.5533 y un error cuadrático medio de 351,443.73489. Esto muestra que en promedio el error de la predicción es aceptable, pero que existirán casos en los que la predicción será muy distante del valor real, lo cual es esperado en el modelo. Por lo cual se considera como satisfactorio el rendimiento del modelo.
 
-En el notebook [red_neuronal.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/red_neuronal.ipynb) se encuentra la evaluación de las predicciones con los datos de 2017 en adelante.
+En el notebook [red_neuronal.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/red_neuronal.ipynb) se encuentra la evaluación de las predicciones con los datos de 2017 en adelante. 
 
 #### SVM
 
 El SVM mostró un rendimiento excepcional en la clasificación de los datos, con altas métricas de precisión, recall, F1-score y accuracy.
 
-| Fase          | Precision | Recall | F1-score | Accuracy |
-|---------------|-----------|--------|----------|----------|
-| Evaluación    | 0.989     | 0.99   | 0.99     | 0.99     |
-| Predicciones  | 0.994     | 0.99   | 0.99     | 0.99     |
+| Fase                      | Precision | Recall | F1-score | Accuracy |
+|---------------------------|-----------|--------|----------|----------|
+| Entrenamiento y prueba    | 0.989     | 0.99   | 0.99     | 0.99     |
+| Predicciones              | 0.994     | 0.99   | 0.99     | 0.99     |
 
-Como se observa, los resultados tanto en la fase de entrenamiento como de validación son bastante altos, lo que indica que los modelos son altamente eficaces y confiables para la detección de desórdenes de depresión en poblaciones amplias.
+Como se observa, los resultados tanto en la fase de entrenamiento como de validación son bastante altos, lo que indica que los modelos son altamente eficaces y confiables para la detección de desórdenes de depresión en poblaciones amplias. 
+
+En el notebook [svm.ipynb](https://github.com/markalbrand56/MD-Proyecto/blob/main/SVM.ipynb) se encuentran las matrices de confusión tanto para el entrenamiento como para la predicción del modelo.
+
+## Selección del mejor modelo. Revisión del ajuste del modelo.
+
+El modelo elegido es el SVM debido a su eficiencia. Podemos observar métricas bastante buenas   tanto en el entrenamiento como en las predicciones, esto demuestra la capacidad del modelo de clasificar los datos en las clases debidas.
 
 ## Conclusiones
 
 - Los clusters identificados por el algoritmo K-means mostraron patrones y características claras en los datos.
-- La red neuronal y el SVM mostraron buenos resultados en la predicción de la depresión,siendo capaces de clasificar los datos con alta precisión.deser eficaces
+- La red neuronal y el SVM mostraron buenos resultados en la predicción de la depresión,siendo capaces tanto de clasificar los datos con alta precisión como de predecir el número exacto de porcentaje de depresión cada 100,000 habitantes.
 
 ## Referencias
 

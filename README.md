@@ -108,7 +108,7 @@ model = Sequential([
 
 ```
 
-Esta configuración mostró un rendimiento aceptable, más no excelente. El error absoluto medio (MAE) y el error cuadrático medio (MSE) durante las fases de entrenamiento y evaluación superaban los 120 y 1200 respectivamente.
+Esta configuración mostró un rendimiento aceptable, más no excelente. El error absoluto medio (MAE) y el error cuadrático medio (MSE) durante las fases de entrenamiento y evaluación superaban los 40 y 160 respectivamente.
 
 Luego de una investigación y la prueba de distintas configuraciones sugeridas, se encontró que la siguiente configuración mostraba un mejor rendimiento:
 

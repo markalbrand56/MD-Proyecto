@@ -9,7 +9,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten
 
-EPOCHS = 20_000
+EPOCHS = 20_0
 
 # Cargar los datos
 data = pd.read_csv("merged_data.csv")
@@ -34,13 +34,9 @@ X_test_scaled = scaler.transform(X_test)
 
 # Construir el modelo de red neuronal
 model = Sequential([
-    Conv1D(64, 3, activation='relu', input_shape=(X_train.shape[1], 1)),  # Convolutional layer: 64 filtros de 3x1 para extraer características
-    MaxPooling1D(2),  # Max pooling layer: Reducir la dimensión de las características para obtener las más importantes
-    Conv1D(64, 3, activation='relu'),  # Convolutional layer: 64 filtros de 3x1 para extraer características
-    MaxPooling1D(2),  # Max pooling layer: Reducir la dimensión de las características para obtener las más importantes
-    Flatten(),  # Aplanar las características para poder conectarlas a una capa densa
-    Dense(64, activation='relu'),  # Capa densa con 64 neuronas y función de activación ReLU
-    Dense(1)  # Capa densa con 1 neurona para la regresión
+    Dense(128, activation='relu', input_shape=(X_train_scaled.shape[1],)),
+    Dense(64, activation='relu'),
+    Dense(1)
 ])
 
 # Función de pérdida
